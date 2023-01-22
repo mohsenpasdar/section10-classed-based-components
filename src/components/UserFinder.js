@@ -1,5 +1,7 @@
 import { Fragment, Component } from "react";
 
+import ErrorBoundary from "./ErrorBoundary";
+
 import Users from "./Users";
 import classes from "./UserFinder.module.css";
 import UsersContext from "../store/users-context";
@@ -13,10 +15,10 @@ class UserFinder extends Component {
     };
   }
 
-  static contextType = UsersContext
+  static contextType = UsersContext;
 
   componentDidMount() {
-    this.setState({filteredUsers: this.context.users})
+    this.setState({ filteredUsers: this.context.users });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -41,7 +43,9 @@ class UserFinder extends Component {
         <div className={classes.finder}>
           <input type="search" onChange={this.searchChangeHandler.bind(this)} />
         </div>
-        <Users users={this.state.filteredUsers} />
+        <ErrorBoundary>
+          <Users users={this.state.filteredUsers} />
+        </ErrorBoundary>
       </Fragment>
     );
   }
